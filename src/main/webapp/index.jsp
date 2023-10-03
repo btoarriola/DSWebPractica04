@@ -18,6 +18,7 @@
     <!-- Formulario para Insertar -->
     <form action="InsertarServlet" method="post">
         Nombre: <input type="text" name="nombre">
+        Direccion <input type="text" name="direccion">
         Teléfono: <input type="text" name="telefono">
         <input type="submit" value="Insertar">
     </form>
@@ -27,24 +28,26 @@
         <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Direccion</th>
             <th>Teléfono</th>
             <th>Acciones</th>
         </tr>
         <%
             try {
                 Class.forName("org.postgresql.Driver");
-                Connection con = DriverManager.getConnection("jdbc:postgresql://172.17.0.3/mydb", "postgres", "pass");
+                Connection con = DriverManager.getConnection("jdbc:postgresql://172.17.0.2/mydb", "postgres", "pass");
                 Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM contactos");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM mytable");
                 while (rs.next()) {
         %>
                     <tr>
-                        <td><%= rs.getInt("id") %></td>
+                        <td><%= rs.getInt("clave") %></td>
                         <td><%= rs.getString("nombre") %></td>
+                        <td><%= rs.getString("direccion") %></td>
                         <td><%= rs.getString("telefono") %></td>
                         <td>
-                            <a href="EditarServlet?id=<%= rs.getInt("id") %>">Editar</a>
-                            <a href="BorrarServlet?id=<%= rs.getInt("id") %>">Borrar</a>
+                            <a href="EditarServlet?clave=<%= rs.getInt("clave") %>">Editar</a>
+                            <a href="BorrarServlet?clave=<%= rs.getInt("clave") %>">Borrar</a>
                         </td>
                     </tr>
         <%

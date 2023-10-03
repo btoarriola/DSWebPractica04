@@ -23,17 +23,17 @@ import javax.servlet.http.HttpServletResponse;
 public class EditarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int clave = Integer.parseInt(request.getParameter("clave"));
         
         try {
             Class.forName("org.postgresql.Driver");
             try (Connection con = DriverManager.getConnection("jdbc:postgresql://172.17.0.2/mydb", "postgres", "pass")) {
-                String sql = "SELECT * FROM contactos WHERE id=?";
+                String sql = "SELECT * FROM mytable WHERE clave=?";
                 try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                    pstmt.setInt(1, id);
+                    pstmt.setInt(1, clave);
                     ResultSet rs = pstmt.executeQuery();
                     if (rs.next()) {
-                        request.setAttribute("contacto", rs);
+                        request.setAttribute("mytable", rs);
                     }
                     rs.close();
                 }

@@ -23,14 +23,14 @@ import javax.servlet.http.HttpServletResponse;
 public class BorrarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int clave = Integer.parseInt(request.getParameter("clave"));
         
         try {
             Class.forName("org.postgresql.Driver");
             try (Connection con = DriverManager.getConnection("jdbc:postgresql://172.17.0.2/mydb", "postgres", "pass")) {
-                String sql = "DELETE FROM contactos WHERE id=?";
+                String sql = "DELETE FROM mytable WHERE clave=?";
                 try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                    pstmt.setInt(1, id);
+                    pstmt.setInt(1, clave);
                     pstmt.executeUpdate();
                 }
             }
